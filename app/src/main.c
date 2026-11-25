@@ -26,6 +26,7 @@ int main(void) {
   state_machine_init();
 
   while (1) {
+    printk("hello");
     int ret = state_machine_run();
     if(0 > ret) {
       return 0;
