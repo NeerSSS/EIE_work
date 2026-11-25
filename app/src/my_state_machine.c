@@ -29,7 +29,7 @@ typedef struct {
 
 //LOCAL VARIABLES
 
-static const strunct smf_state led_states[] = {
+static const struct smf_state led_states[] = {
     [LED_ON_STATE] = SMF_CREATE_STATE(led_on_state_entry, led_on_state_run, NULL, NULL, NULL),
     [LED_OFF_STATE] = SMF_CREATE_STATE(led_off_state_entry, led_off_state_run, NULL, NULL, NULL)
 };
@@ -41,11 +41,15 @@ static led_state_object_t led_state_object;
     smf_set_initial(SMF_CTX(&led_state_object), &led_states[LED_ON_STATE]);
  }
 
- void state_machine_run(){
+ int state_machine_run(){
     return smf_run_state(SMF_CTX(&led_state_object));
  }
 
  static void led_on_state_entry(void* o) {
+    LED_set(LED0, LED_ON);
+ }
+
+ static enum smf_state_result led_on_state_run(void* o) {
     if (led_state_object.count > 500) {
         led_state_object.count = 0;
         smf_set_state(SMF_CTX(&led_state_object), &led_states[LED_OFF_STATE]);
@@ -63,7 +67,7 @@ static led_state_object_t led_state_object;
  static enum smf_state_result led_off_state_run(void* o) {
     if (led_state_object.count > 500) {
         led_state_object.count = 0;
-        smf_set_state(SMF_CTX(&led_state_objeect), &led_states[LED_ON_STATE]);
+        smf_set_state(SMF_CTX(&led_state_object), &led_states[LED_ON_STATE]);
     } else {
         led_state_object.count++;
     }
