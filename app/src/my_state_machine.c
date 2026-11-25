@@ -15,7 +15,7 @@
  static void led_off_state_entry(void* o);
  static enum smf_state_result led_off_state_run(void* o);
 
-// TYPE DEFS
+// TYPE DEFS - defining data types our state machine uses
 
 enum led_state_machine_states {
     LED_ON_STATE,
