@@ -12,6 +12,7 @@
 #include "BTN.h"
 #include "LED.h"
 #include "my_state_machine.h"
+
 #define SLEEP_MS 1
 
 int main(void) {
@@ -22,8 +23,13 @@ int main(void) {
     return 0;
   }
 
+  state_machine_init();
+
   while (1) {
-    k_msleep(SLEEP_MS);
+    int ret = state_machine_run();
+    if(0 > ret) {
+      return 0;
+    }
   }
   return 0;
 }
