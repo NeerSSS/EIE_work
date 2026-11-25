@@ -6,9 +6,11 @@
  #include "LED.h"
  #include "my_state_machine.h"
 
- //FUNCTION PROTOTYPES
-
+ //FUNCTION PROTOTYPES, telling us functions exist and what arguments they accept
+//void *o is a generic pointer holding the address of an object of any data type
  static void led_on_state_entry(void* o);
+ // enum smf_state_result is the entire type of the function which returns an enumerator 
+ //either SMF_EVENT_HANDLED or SMF_EVENT_PROPOGATED
  static enum smf_state_result led_on_state_run(void* o);
  static void led_off_state_entry(void* o);
  static enum smf_state_result led_off_state_run(void* o);
