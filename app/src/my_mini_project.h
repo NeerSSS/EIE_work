@@ -1,5 +1,5 @@
 /**
-* @file my_state_machine.h
+* @file my_mini_project.h
  */
 
  #ifndef MY_STATE_MACHINE_H
