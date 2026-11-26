@@ -11,7 +11,7 @@
 
 #include "BTN.h"
 #include "LED.h"
-#include "my_state_machine.h"
+#include "my_mini_project.h"
 
 #define SLEEP_MS 1
 
@@ -26,7 +26,6 @@ int main(void) {
   state_machine_init();
 
   while (1) {
-    printk("hello");
     int ret = state_machine_run();
     if(0 > ret) {
       return 0;
