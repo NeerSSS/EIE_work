@@ -8,23 +8,20 @@
  //Function Prototypes
 static void all_led_off_state_entry(void* o);
 static enum smf_state_result all_led_off_state_run(void* o);
-static void all_led_off_state_exit(void* o);
 
 static void led_one_blink_entry(void* o);
 static enum smf_state_result led_one_blink_run(void* o);
-static void led_one_blink_exit(void* o);
 
 static void led_one_led_three_entry(void* o);
 static enum smf_state_result led_one_led_three_run(void* o);
-static void led_one_led_three_exit(void* o);
 
 static void led_two_led_four_entry(void* o);
 static enum smf_state_result led_two_led_four_run(void* o);
-static void led_two_led_four_exit(void* o);
 
 static void all_led_on_entry(void* o);
 static enum smf_state_result all_led_on_run(void* o);
-static void all_led_on_exit(void* o);
+
+static void general_exit(void* o);
 
 
  //Type Defs
@@ -48,19 +45,19 @@ typedef struct {
  //Local variables
  static const struct smf_state led_states[] = {
     [ALL_LEDS_OFF] = SMF_CREATE_STATE(all_led_off_state_entry, 
-        all_led_off_state_run, all_led_off_state_exit, NULL, NULL),
+        all_led_off_state_run, general_exit, NULL, NULL),
 
     [LED1_BLINK] = SMF_CREATE_STATE(led_one_blink_entry, 
-        led_one_blink_run, led_one_blink_exit, NULL, NULL),
+        led_one_blink_run, general_exit, NULL, NULL),
 
     [LED1_LED3_ON] = SMF_CREATE_STATE(led_one_led_three_entry, 
-        led_one_led_three_run,led_one_led_three_exit, NULL, NULL),
+        led_one_led_three_run, general_exit, NULL, NULL),
 
     [LED2_LED4_ON] = SMF_CREATE_STATE(led_two_led_four_entry, 
-        led_two_led_four_run, led_two_led_four_exit, NULL, NULL),
+        led_two_led_four_run, general_exit, NULL, NULL),
 
     [ALL_LEDS_BLINK] = SMF_CREATE_STATE(all_led_on_entry, 
-        all_led_on_run, all_led_on_exit, NULL, NULL),
+        all_led_on_run, general_exit, NULL, NULL),
  };
 
 static led_state_object_t led_state_object;
@@ -89,12 +86,6 @@ static enum smf_state_result all_led_off_state_run(void* o){
     return SMF_EVENT_HANDLED;
 }
 
-static void all_led_off_state_exit(void* o) {
-    LED_set(LED0, LED_OFF);
-    LED_set(LED1, LED_OFF);
-    LED_set(LED2, LED_OFF);
-    LED_set(LED3, LED_OFF);
-}
 
 static void led_one_blink_entry(void* o){
     LED_set(LED0, LED_ON);
@@ -123,12 +114,6 @@ static enum smf_state_result led_one_blink_run(void* o){
     return SMF_EVENT_HANDLED;
 }
 
-static void led_one_blink_exit(void* o){
-    LED_set(LED0, LED_OFF);
-    LED_set(LED1, LED_OFF);
-    LED_set(LED2, LED_OFF);
-    LED_set(LED3, LED_OFF);
-}
 
 static void led_one_led_three_entry(void* o){
     LED_set(LED0,LED_ON);
@@ -152,13 +137,6 @@ static enum smf_state_result led_one_led_three_run(void* o){
     return SMF_EVENT_HANDLED;
 }
 
-   
-static void led_one_led_three_exit(void* o){
-    LED_set(LED0, LED_OFF);
-    LED_set(LED1, LED_OFF);
-    LED_set(LED2, LED_OFF);
-    LED_set(LED3, LED_OFF);
-}
 
 static void led_two_led_four_entry(void* o){
     LED_set(LED1,LED_ON);
@@ -176,13 +154,6 @@ static enum smf_state_result led_two_led_four_run(void* o){
     }
 
 return SMF_EVENT_HANDLED;
-}
-
-static void led_two_led_four_exit(void* o){
-    LED_set(LED0, LED_OFF);
-    LED_set(LED1, LED_OFF);
-    LED_set(LED2, LED_OFF);
-    LED_set(LED3, LED_OFF);
 }
 
 static void all_led_on_entry(void* o){
@@ -212,7 +183,7 @@ static enum smf_state_result all_led_on_run(void* o){
     return SMF_EVENT_HANDLED;
 }
 
-static void all_led_on_exit(void* o){
+static void general_exit(void* o){
     LED_set(LED0, LED_OFF);
     LED_set(LED1, LED_OFF);
     LED_set(LED2, LED_OFF);
